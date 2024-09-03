@@ -3,6 +3,7 @@
 # Refactoring of the "BUNNY" BASIC game from the 1978 book BASIC Computer Games by Creative Computing into Python 3
 
 import os
+import sys
 
 # Define constants:
 ASCII_OFFSET = 64 # Letters begin at ASCII 65 with A
@@ -40,14 +41,10 @@ class Terminal:
             print(f"Column {col} is out of bounds")
 
     def display(self):
-        os.system('cls') # Clear the screen
-        print(" "*23+str("BUNNY"))
-        print(" "*5+str("CREATIVE COMPUTING  MORRISTOWN, NEW JERSEY"))
-        # Print 3 blank lines for spacing
-        print("\n" * 3) 
+        
         # Print each row as a string
         for row in self.screen:
-            print("".join(row))
+            sys.stdout.write("".join(row)+"\n")
 
 # Initialise new terminal
 terminal = Terminal()
@@ -80,5 +77,10 @@ def draw_pattern(pattern):
 # Start of program execution
 
 draw_pattern(PATTERN_DATA)
+os.system('cls') # Clear the screen
+print(" "*23+str("BUNNY"))
+print(" "*5+str("CREATIVE COMPUTING  MORRISTOWN, NEW JERSEY"))
+# Print 3 blank lines for spacing
+print("\n" * 3) 
 terminal.display()
 print_6_lines() 
