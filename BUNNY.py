@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
 
-# Refactoring of the "BUNNY" BASIC game from the 1978 book BASIC Computer Games by Creative Computing into Python 3
+# Refactoring of the "Bunny" BASIC game from the 1978 book BASIC Computer Games by Creative Computing into Python 3
 
-import os
-import sys
+import helpers
 
-# Define constants:
 ASCII_OFFSET = 64 # Letters begin at ASCII 65 with A
 BUNNY_STRING = [2,21,14,14,25] # Letters making up BUNNY when ASCII offset is applied
-PATTERN_DATA = [ # Data making up the bunny pattern
+PATTERN_DATA = [ 
+    # Data making up the bunny pattern
+    # Integers less than 0 represent a newline, positive integers represent starting and stopping columns where text should be printed
+    # 4096 represents the end of printing
     1, 2, -1, 0, 2, 45, 50, -1, 0, 5, 43, 52, -1, 0, 7, 41, 52, -1,
     1, 9, 37, 50, -1, 2, 11, 36, 50, -1, 3, 13, 34, 49, -1, 4, 14, 32, 48, -1,
     5, 15, 31, 47, -1, 6, 16, 30, 45, -1, 7, 17, 29, 44, -1, 8, 19, 28, 43, -1,
@@ -22,41 +23,27 @@ PATTERN_DATA = [ # Data making up the bunny pattern
     22, 23, 26, 29, -1, 27, 29, -1, 28, 29, -1, 4096
 ]
 
-# Define terminal class to replicate behaviour of Basic print function:
-class Terminal:
-    def __init__(self):
-        # Initialize the terminal with one row, containing 80 spaces (empty array)
-        self.width = 80
-        self.screen = [[' ' for _ in range(self.width)]]
-
-    def add_character(self, row, col, char):
-        # Ensure the row exists
-        while len(self.screen) <= row:
-            self.screen.append([' ' for _ in range(self.width)])
-        
-        # Add the character to the specified row and column, if within bounds
-        if 0 <= col < self.width:
-            self.screen[row][col] = char
-        else:
-            print(f"Column {col} is out of bounds")
-
-    def display(self):
-        
-        # Print each row as a string
-        for row in self.screen:
-            sys.stdout.write("".join(row)+"\n")
-
 # Initialise new terminal
-terminal = Terminal()
-
-# Define functions:
+terminal = helpers.Terminal()
 
 def print_6_lines():
-    # Function to print 6 lines similar to GOSUB260
+    '''
+    Function to print 6 lines similar to GOSUB260 in source code.
+    Args:
+        None
+    Returns:
+        None
+    '''
     print("\n"*6)
 
 def draw_pattern(pattern):
-    # Initialise x and row variables
+    '''
+    Function to draw the bunny pattern.
+    Args:
+        None
+    Returns:
+        None
+    '''
     x=0
     row=0
     while True: 
@@ -74,13 +61,10 @@ def draw_pattern(pattern):
         x+=2
         continue
 
-# Start of program execution
-
 draw_pattern(PATTERN_DATA)
-os.system('cls') # Clear the screen
+helpers.clear_console()
 print(" "*23+str("BUNNY"))
 print(" "*5+str("CREATIVE COMPUTING  MORRISTOWN, NEW JERSEY"))
-# Print 3 blank lines for spacing
 print("\n" * 3) 
 terminal.display()
 print_6_lines() 
