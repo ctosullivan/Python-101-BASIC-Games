@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import random
+
 from helpers import clear_console, centred_text
 
 # Refactoring of the "Acey Ducey" BASIC game from the 1978 book BASIC Computer
@@ -8,24 +9,24 @@ from helpers import clear_console, centred_text
 # Original author is Bill Palmby of Prairie View, Illinois
 
 def random_card() -> int:
-    '''Generates a random playing card, represented as an integer from 2 to 14
-    Ace=14).
+    """Generates a random playing card, represented as an integer from 2 to 14
+    (Ace=14).
     Args:
         None
     Returns:
         A random integer in the range 2-14
-    '''
+    """
     return random.randint(2,14)
 
 
 def print_card(card: int) -> None:
-    '''
+    """
     Prints the integer or text value of a playing card.
     Args:
         Card: An integer representing a playing card.
     Returns:
         None
-    '''    
+    """    
     if card == 11:
         print("JACK")
     elif card == 12:
@@ -49,8 +50,8 @@ print("A VALUE BETWEEN THE FIRST TWO.")
 print("IF YOU DO NOT WANT TO BET, INPUT A 0")
 
 def main() -> None:
-    '''Main game loop
-    '''
+    """Main game loop
+    """
     current_money: int = 100
     game_over: bool = False
 
