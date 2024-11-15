@@ -1,45 +1,46 @@
 #!/usr/bin/env python3
 
-# Refactoring of the "Acey Ducey" BASIC game from the 1978 book BASIC Computer Games by Creative Computing into Python 3
+import random
+from helpers import clear_console, centred_text
+
+# Refactoring of the "Acey Ducey" BASIC game from the 1978 book BASIC Computer
+# Games by Creative Computing into Python 3
 # Original author is Bill Palmby of Prairie View, Illinois
 
-import random
-import sys
-import helpers
-
-def random_card():
-    '''
-    Generates a random playing card, represented as an integer from 2 to 14 (Ace=14).
+def random_card() -> int:
+    '''Generates a random playing card, represented as an integer from 2 to 14
+    Ace=14).
     Args:
         None
     Returns:
-        None
+        A random integer in the range 2-14
     '''
     return random.randint(2,14)
 
-def print_card(card):
+
+def print_card(card: int) -> None:
     '''
     Prints the integer or text value of a playing card.
     Args:
-        None
+        Card: An integer representing a playing card.
     Returns:
         None
-    '''
-    if card<11:
-        print(card)
-    elif card==11:
+    '''    
+    if card == 11:
         print("JACK")
-    elif card==12:
+    elif card == 12:
         print("QUEEN")
-    elif card==13:
+    elif card == 13:
         print("KING")
-    elif card==14:
+    elif card == 14:
         print("ACE")
+    else:
+        print(card)
 
-helpers.clear_console()
-print(" "*15+str("ACEY DUCEY CARD GAME"))
-print(" "*5+str("CREATIVE COMPUTING  MORRISTOWN, NEW JERSEY"))
-sys.stdout.write("\n" * 3) 
+clear_console()
+print(centred_text("ACEY DUCEY CARD GAME"))
+print(centred_text("CREATIVE COMPUTING  MORRISTOWN, NEW JERSEY"))
+print("\n"*3,end="")
 print("ACEY-DUCEY IS PLAYED IN THE FOLLOWING MANNER ")
 print("THE DEALER (COMPUTER) DEALS TWO CARDS FACE UP")
 print("YOU HAVE AN OPTION TO BET OR NOT BET DEPENDING")
@@ -47,59 +48,70 @@ print("ON WHETHER OR NOT YOU FEEL THE CARD WILL HAVE")
 print("A VALUE BETWEEN THE FIRST TWO.")
 print("IF YOU DO NOT WANT TO BET, INPUT A 0")
 
-money = 100
-game_over = False
+def main() -> None:
+    '''Main game loop
+    '''
+    current_money: int = 100
+    game_over: bool = False
 
-while game_over==False:
-    try_again = False
-    bet=False
-    first_card = random_card();
-    second_card = random_card();
-    print(f'YOU NOW HAVE {money} DOLLARS')
-    sys.stdout.write("\n") 
-    print("HERE ARE YOUR NEXT TWO CARDS: ")
+    while not game_over:
+        bet: bool = False
+        first_card: int = random_card()
+        second_card: int = random_card()
 
-    # reshuffle if the first card is greater or equal to the second card
-    while first_card>=second_card:
-        first_card = random_card();
-        second_card = random_card();
+        print(f"YOU NOW HAVE {current_money} DOLLARS")
+        print() 
+        print("HERE ARE YOUR NEXT TWO CARDS: ")
 
-    print_card(first_card)
-    print_card(second_card)
-    sys.stdout.write("\n"*2) 
+        # reshuffle if the first card is greater or equal to the second card
+        while first_card>=second_card:
+            first_card = random_card()
+            second_card = random_card()
 
-    while bet==False:
-        bet = input("WHAT IS YOUR BET\n")
-        if int(bet)>money:
-            sys.stdout.write("SORRY, MY FRIEND, BUT YOU BET TOO MUCH.\n") 
-            print(f'YOU ONLY HAVE {money} DOLLARS LEFT TO BET.')
-            bet=False
-    if int(bet)==0:
-        sys.stdout.write('CHICKEN!!\n')
-        continue
-    elif int(bet)<=money:
-        third_card = random_card()
+        print_card(first_card)
+        print_card(second_card)
+        print("\n"*2,end="")
+
+        while not bet:
+            bet_input = int(input("WHAT IS YOUR BET\n"))
+            if bet_input > current_money:
+                print("SORRY, MY FRIEND, BUT YOU BET TOO MUCH.") 
+                print(f"YOU ONLY HAVE {current_money} DOLLARS LEFT TO BET.")  
+                continue              
+            elif bet_input == 0:
+                print("CHICKEN!!")
+                print()
+                break
+            elif bet_input > 0:
+                bet = True
+
+        if not bet:
+            continue
+
+        third_card: int = random_card()
         print_card(third_card)
         if third_card > first_card and third_card < second_card:
-            sys.stdout.write('YOU WIN!!!\n')
-            money += int(bet)
-            continue
+            print("YOU WIN!!!")
+            print() 
+            current_money += bet_input
         else:
-            sys.stdout.write('SORRY, YOU LOSE\n')
-            money -= int(bet)
-            if money <= 0:
-                sys.stdout.write('\n'*2)
-                sys.stdout.write('SORRY, FRIEND, BUT YOU BLEW YOUR WAD.\n')
-                sys.stdout.write('\n'*2)
-                while try_again==False:
-                    try_again = input('TRY AGAIN (YES OR NO)\n')
-                    sys.stdout.write('\n'*2)
+            print("SORRY, YOU LOSE")
+            current_money -= bet_input
+            if current_money <= 0:
+                print("\n"*2,end="")
+                print("SORRY, FRIEND, BUT YOU BLEW YOUR WAD.")
+                print("\n"*2,end="")
+                while not game_over:
+                    try_again = input("TRY AGAIN (YES OR NO)\n")
+                    print("\n"*2,end="")
                     if try_again.upper()=="YES":
-                        money=100
-                        continue
-                    else:
-                        sys.stdout.write('O.K., HOPE YOU HAD FUN!')
-                        game_over=True
+                        current_money=100
                         break
+                    elif try_again.upper()=="NO":
+                        print("O.K., HOPE YOU HAD FUN!")
+                        game_over=True  
+                    else:
+                         continue 
 
-    
+if __name__ == "__main__":
+    main()

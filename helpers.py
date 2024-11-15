@@ -1,10 +1,24 @@
 import platform
 import os
 import sys
+from typing import List
 
-def clear_console():
+def centred_text(input_text=str) -> str:
+    """ Outputs centred text to the console based on a standard console width 
+    of 80 characters.
+
+    Args:
+    input_text: string representing the text to be centred in the console.
+    Returns:
+    centred_text: string representing the centred text to be displayed in the 
+    console.
     """
-    Clears the console screen.
+    output_text = f"{input_text : ^80}"
+    return output_text
+
+
+def clear_console() -> None:
+    """Clears the console screen.
 
     This function detects the operating system and issues the appropriate command
     to clear the console. On Windows, it runs the 'cls' command, while on other 
@@ -43,14 +57,14 @@ class Terminal:
     reset():
         Resets the terminal display to its initial state, clearing all characters and returning to a single empty row.
     """
-    def __init__(self, width=80):
+    def __init__(self, width=80) -> None:
         ''' 
         Initializes a terminal with one row, containing 80 spaces by default.
         '''
         self.width=width
         self.screen = [[' ' for _ in range(self.width)]]
 
-    def add_character(self, row=int, col=int, char=any):
+    def add_character(self, row=int, col=int, char=str) -> None:
         '''
         Adds a character to the specified row and column in the terminal display, if within bounds, while adding new rows to the terminal as required.
         '''
@@ -62,20 +76,20 @@ class Terminal:
         else:
             print(f"Column {col} is out of bounds")
 
-    def display(self):
+    def display(self) -> None:
         '''
         Displays the current state of the terminal by printing all rows to the standard output.
         '''
         for row in self.screen:
             sys.stdout.write("".join(row)+"\n")
 
-    def reset(self):
+    def reset(self) -> None:
         '''
         Resets the terminal display to its initial state, clearing all characters and returning to a single empty row.
         '''
         self.screen = [[' ' for _ in range(self.width)]]
 
-def create_2d_array(rows=int, cols=int, fill_value=""):
+def create_2d_array(rows: int, cols: int, fill_value: str="") -> List[List[str]]:
     """
     Generates a 2D array with specified dimensions and an optional fill value.
 
