@@ -1,12 +1,12 @@
 import platform
 import os
+import math
 
-from typing import List
+from typing import List, Sequence
 
 def centred_text(input_text=str, console_width: int=80) -> str:
     """ Outputs centred text to the console based on a default console width 
     of 80 characters.
-
     Args:
     input_text: string representing the text to be centred in the console.
     Returns:
@@ -19,11 +19,9 @@ def centred_text(input_text=str, console_width: int=80) -> str:
 
 def clear_console() -> None:
     """Clears the console screen.
-
-    This function detects the operating system and issues the appropriate 
+    Function detects the operating system and issues the appropriate 
     command to clear the console. On Windows, it runs the 'cls' command, while 
     on other platforms (Linux, macOS), it runs the 'clear' command.
-
     Args:
         None
     Returns:
@@ -34,9 +32,9 @@ def clear_console() -> None:
     else:
         os.system('clear')
 
+
 class Terminal:
     """A class that replicates BASIC terminal functions.
-
     Attributes:
     -----------
     width: int
@@ -44,18 +42,15 @@ class Terminal:
     screen: 2D list of str
         A 2D list representing the terminal display, where each element is a 
         row containing characters.
-
     Methods:
     --------
     add_character(row: int, col: int, char: str):
         Adds a character at the specified row and column position on the 
         screen. Automatically expands the screen height if the specified row 
         does not exist. Prints a message if the column is out of bounds.
-
     display():
         Displays the current state of the terminal by printing all rows to
         stdout.
-
     reset():
         Resets the terminal display to its initial state, clearing all 
         characters and returning to a single empty row.
@@ -96,22 +91,20 @@ class Terminal:
         """
         self.screen = [[' ' for _ in range(self.width)]]
 
+
 def create_2d_array(
         rows: int, cols: int, fill_value: str=""
         ) -> List[List[str]]:
     """
     Generates a 2D array with specified dimensions and an optional fill value.
-
     Args:
         rows (int): The number of rows in the 2D array.
         cols (int): The number of columns in the 2D array.
         fill_value (optional, str): The value to fill each element of the 
         array with. Defaults to "".
-
     Returns:
         list: A 2D list (array) with dimensions [rows][cols], filled with 
         `fill_value`.
-
     Raises:
         ValueError: If `rows` or `cols` are non-positive integers.
     """
@@ -120,3 +113,24 @@ def create_2d_array(
             "Number of rows and columns must be positive integers."
             )
     return [[fill_value for _ in range(rows)] for _ in range(cols)]
+
+
+def print_tabbed_text(
+        input_strings: Sequence[str], spacing: int=15, console_width: int=80
+        ) -> None:
+    """Prints left-aligned tabulated text with default spacing of 15 
+    characters.
+    Args:
+        input_strings: List[str]- List of strings to be printed
+    Returns:
+        None
+    """
+    i = 0
+    number_of_tabs = math.trunc(console_width / spacing)
+    for string in input_strings:
+        i += 1
+        print(f"{string : <{spacing}}", end = "")
+        # Newline after required number of tabs
+        if i % number_of_tabs == 0:
+            print()
+    print()
