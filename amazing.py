@@ -15,8 +15,10 @@ from helpers import Terminal, create_2d_array
 #  if required
 
 # usage: Amazing Maze Generator [-help] width height
-# Example (Windows) - py .\amazing.py 10 20 prints a maze with 10 columns and 20 rows
-# Example (Linux) - python .\amazing.py 10 20 prints a maze with 10 columns and 20 rows
+# Example (Windows) - py .\amazing.py 10 20 prints a maze with 10 columns and 
+# 20 rows
+# Example (Linux) - python .\amazing.py 10 20 prints a maze with 10 columns 
+# and 20 rows
 
 # Original author is Jack Hauber of Windsor, Connecticut
 
@@ -34,7 +36,8 @@ def main():
         Returns:
             value: int- The valid positive integer greater than 1
         Raises:
-            argparse.ArgumentTypeError: If the integer is less than or equal to 1
+            argparse.ArgumentTypeError: If the integer is less than or equal 
+            to 1
             Exception: If the input cannot be converted to an integer
         Credit - https://stackoverflow.com/a/64980375 
         """
@@ -42,7 +45,8 @@ def main():
             value = int(value)
             if value <= 1:
                 raise argparse.ArgumentTypeError(
-                    "{} is not a positive integer greater than 1".format(value)
+                    "{} is not a positive integer greater than 1"
+                    .format(value)
                     )
         except ValueError:
             raise Exception("{} is not an integer".format(value))
@@ -60,8 +64,8 @@ def main():
                         "width",
                         nargs = 1,
                         help = """
-                        Enter the width of the maze as a positive integer greater 
-                        than 1
+                        Enter the width of the maze as a positive integer 
+                        greater than 1
                         """,
                         type = check_positive,
                         )
@@ -81,9 +85,9 @@ def main():
 
     Maze = List[List[Any]]
 
-    # Initialise new terminal - terminal width can be greater than the default of 
-    # 80 given stdout can be used - 3 characters are used for each column in the 
-    # maze, followed by a single character after the last column
+    # Initialise new terminal - terminal width can be greater than the default 
+    # of 80 given stdout can be used - 3 characters are used for each column 
+    # in the maze, followed by a single character after the last column
     terminal = Terminal((maze_width + 1) * (3)) 
 
     maze_cell_state: Maze = create_2d_array(maze_width, maze_height)
@@ -100,7 +104,9 @@ def main():
     maze_path: List[str] = []
     counter: int = 0
 
-    def print_first_row(terminal, entrance_col: int, maze_width: int) -> Terminal:
+    def print_first_row(
+            terminal, entrance_col: int, maze_width: int
+            ) -> Terminal:
         '''
         Prints the first row of the maze with a random entrance.
         Args:
@@ -137,23 +143,28 @@ def main():
             console
         '''
         terminal.add_character((maze_height * 2), ((exit_col - 1) * 3), ":")
-        terminal.add_character((maze_height * 2), ((exit_col - 1) * 3) + 1, " ")
-        terminal.add_character((maze_height * 2), ((exit_col - 1) * 3) + 2, " ")
+        terminal.add_character(
+            (maze_height * 2), ((exit_col - 1) * 3) + 1, " "
+            )
+        terminal.add_character(
+            (maze_height * 2), ((exit_col - 1) * 3) + 2, " "
+            )
         return terminal
 
     def check_direction(
             row: int, col: int, maze_cell_state: Maze
             ) -> List[str]:
         '''
-        Determines the possible directions the maze can move from the specified 
-        cell. Function checks all four possible movement directions from the 
+        Determines the possible directions the maze can move from the 
+        specified cell. Function checks all four possible movement directions from the 
         specified position in the maze and returns a list of valid directions 
         where the next move can be made. A direction is considered valid if it 
         leads to a cell that has not yet been visited.
         Args:
             row: int - The current row position in the maze (1-indexed)
             col: int - The current column position in the maze (1-indexed)
-            maze_cell_state: List - Variable representing current maze cell state
+            maze_cell_state: List - Variable representing current maze cell 
+            state
         Returns:
             possible_directions: list[str]- A list of valid directions 
             ('UP', 'DOWN', 'LEFT', 'RIGHT') where movement is possible
@@ -179,8 +190,8 @@ def main():
         return(possible_directions)
 
     def move_in_direction(
-            direction: str, counter: int, row: int, col: int, backtracking: bool, 
-            maze_walls: Maze, maze_cell_state: Maze, maze_path: List[str]
+            direction: str, counter: int, row: int, col: int, 
+            backtracking: bool, maze_walls: Maze, maze_cell_state: Maze,maze_path: List[str]
             ):
         '''
         Knocks down walls in the maze in a specified direction by updating the 
@@ -305,7 +316,8 @@ def main():
                 if check_direction(row, col, maze_cell_state):
                     directions = check_direction(row, col, maze_cell_state)
                     direction = random.choice(directions)
-                    (row, col, counter, maze_cell_state, maze_path, maze_walls) = \
+                    (row, col, counter, maze_cell_state, maze_path, 
+                     maze_walls) = \
                         move_in_direction(
                         direction, counter, row, col, backtracking, 
                         maze_walls, maze_cell_state, maze_path
@@ -318,8 +330,8 @@ def main():
                 # backtracking is true - no available directions to move but 
                 # the maze isn't finished yet
                 if not maze_path:
-                    # Select another random starting position if the maze isn't 
-                    # finished and no options remain for backtracking
+                    # Select another random starting position if the maze 
+                    # isn't finished and no options remain for backtracking
                     random_col = (int(random.random() * maze_width))
                     random_row = (int(random.random() * maze_height))
                     col = random_col
@@ -327,7 +339,7 @@ def main():
                     backtracking = False
                     continue
                 backtrack_direction = maze_path.pop()
-                (row, col, counter, maze_cell_state, maze_path, maze_walls) = \
+                (row, col, counter, maze_cell_state, maze_path, maze_walls) =\
                 move_in_direction(
                         backtrack_direction, counter, row, col, backtracking, 
                         maze_walls, maze_cell_state, maze_path
@@ -338,10 +350,12 @@ def main():
                         )
                     direction = random.choice(backtrack_directions)
                     backtracking = False
-                    (row, col, counter, maze_cell_state, maze_path, maze_walls) = \
-                    move_in_direction(direction, counter, row, col, backtracking, 
-                            maze_walls, maze_cell_state, maze_path
-                            )
+                    (row, col, counter, maze_cell_state, maze_path, 
+                    maze_walls) = \
+                    move_in_direction(
+                        direction, counter, row, col, backtracking, 
+                        maze_walls, maze_cell_state, maze_path
+                        )
         return maze_walls
 
     def draw_maze(
