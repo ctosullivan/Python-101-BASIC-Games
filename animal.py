@@ -31,7 +31,8 @@ def get_user_input(input_question: str, input_list: List[str]) -> str:
     as a prompt and returns the matching string from the input list 
     provided. The function will attempt to match at least one letter in
     the input with the item in the input list - i.e. "Y" will return "YES",
-    "YE" will return "YES" etc. If no matching string is found, the user input string is returned.
+    "YE" will return "YES" etc. If no matching string is found, the user input 
+    string is returned.
     Args:
         input_question: str- string to be used as a prompt for the input 
         question
@@ -54,7 +55,8 @@ def get_user_input(input_question: str, input_list: List[str]) -> str:
             return input_text
         
 def print_animal_list(node: Node) -> None:
-    """Traverses the animal tree and prints the curent list of animals the computer knows.
+    """Traverses the animal tree and prints the curent list of animals 
+    the computer knows.
     Args:
         node: Node - Node representing current tree of known animals
     Returns:
@@ -167,8 +169,8 @@ def add_new_animal(node: Node, path: list[str]) -> Node:
                 [],
                 )
             new_question = get_user_input(
-                f"PLEASE TYPE IN A QUESTION TO DISTINGUISH A {new_animal} FROM"
-                f" A {current_node}",
+                f"PLEASE TYPE IN A QUESTION TO DISTINGUISH A {new_animal} "
+                f"FROM A {current_node}",
                 [],
             )
             new_answer = get_user_input(
