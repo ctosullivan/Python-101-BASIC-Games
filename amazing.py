@@ -156,10 +156,10 @@ def main():
             ) -> List[str]:
         '''
         Determines the possible directions the maze can move from the 
-        specified cell. Function checks all four possible movement directions from the 
-        specified position in the maze and returns a list of valid directions 
-        where the next move can be made. A direction is considered valid if it 
-        leads to a cell that has not yet been visited.
+        specified cell. Function checks all four possible movement directions
+        from the specified position in the maze and returns a list of valid
+        directions where the next move can be made. A direction is considered
+        valid if it leads to a cell that has not yet been visited.
         Args:
             row: int - The current row position in the maze (1-indexed)
             col: int - The current column position in the maze (1-indexed)
@@ -191,7 +191,8 @@ def main():
 
     def move_in_direction(
             direction: str, counter: int, row: int, col: int, 
-            backtracking: bool, maze_walls: Maze, maze_cell_state: Maze,maze_path: List[str]
+            backtracking: bool, maze_walls: Maze, maze_cell_state: Maze,
+            maze_path: List[str]
             ):
         '''
         Knocks down walls in the maze in a specified direction by updating the 
