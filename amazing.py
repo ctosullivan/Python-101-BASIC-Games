@@ -73,7 +73,8 @@ def main():
                         "height",
                         nargs = 1,
                         help = """
-                        Enter the height of the maze as a positive integer greater 
+                        Enter the height of the maze as a positive integer
+                        greater 
                         than 1
                         """, 
                         type = check_positive,
